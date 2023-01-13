@@ -1,7 +1,8 @@
 version: '3'
 services:
   opensearch-node1: # This is also the hostname of the container within the Docker network (i.e. https://opensearch-node1/)
-    image: opensearchproject/opensearch:latest # Specifying the latest available image - modify if you want a specific version
+    #image: opensearchproject/opensearch:latest # Specifying the latest available image - modify if you want a specific version
+    image: opensearchproject/opensearch:2.4.1
     container_name: opensearch-node1
     environment:
       - cluster.name=opensearch-cluster # Name the cluster
@@ -26,7 +27,8 @@ services:
       - opensearch-net # All of the containers will join the same Docker bridge network
       
   opensearch-node2:
-    image: opensearchproject/opensearch:latest # This should be the same image used for opensearch-node1 to avoid issues
+    #image: opensearchproject/opensearch:latest # This should be the same image used for opensearch-node1 to avoid issues
+    image: opensearchproject/opensearch:2.4.1
     container_name: opensearch-node2
     environment:
       - cluster.name=opensearch-cluster
@@ -48,7 +50,8 @@ services:
       - opensearch-net
 
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:latest # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
+    #image: opensearchproject/opensearch-dashboards:latest # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
+    image: opensearchproject/opensearch-dashboards:2.4.1
     container_name: opensearch-dashboards
     ports:
       - 5601:5601 # Map host port 5601 to container port 5601
@@ -58,6 +61,7 @@ services:
       OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]' # Define the OpenSearch nodes that OpenSearch Dashboards will query
     networks:
       - opensearch-net
+
   opensearch-logstash:
     image: opensearchproject/logstash-oss-with-opensearch-output-plugin:8.4.0
     container_name: opensearch-logstash
